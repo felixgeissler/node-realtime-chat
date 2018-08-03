@@ -17,15 +17,38 @@ app.use(express.static(publicPath));
 io.on('connection', (socket) => {
   console.log('New user connected');
 
+  socket.emit('newMessage', {
+    from: 'Admin',
+    text: 'Welcome to the global chatroom!',
+    createdAt: moment().format("dddd, MMMM Do YYYY, h:mm:ss a")
+  });
+
+  socket.broadcast.emit('newMessage', {
+    from: 'Admin',
+    text: 'A new user has joined the chatroom.',
+    createdAt: moment().format("dddd, MMMM Do YYYY, h:mm:ss a")
+  });
+
+
   socket.on('sendMessage', (data) => {
     console.log('Recieved message: '+data);
 
-    socket.emit('newMessage', {
+    socket.emit('response', {
+      status: 1
+    });
+
+    io.emit('newMessage', {
       from: data.from,
-      to: data.to,
       text: data.text,
       createdAt: moment().format("dddd, MMMM Do YYYY, h:mm:ss a")
     });
+
+    // socket.broadcast.emit('newMessage', {
+    //   from: data.from,
+    //   to: data.to,
+    //   text: data.text,
+    //   createdAt: moment().format("dddd, MMMM Do YYYY, h:mm:ss a")
+    // });
   });
 
   socket.on('disconnect', () => {

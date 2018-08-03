@@ -5,9 +5,14 @@ socket.on('connect', function() {
 
   socket.emit('sendMessage', {
     from: 'User',
-    to: 'global',
     text: 'This is the user speaking'
   });
+});
+
+socket.on('response', function(res) {
+  if (res.status==1){
+    console.log('Message send');
+  }
 });
 
 socket.on('disconnect', function() {
