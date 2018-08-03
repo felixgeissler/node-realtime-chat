@@ -1,4 +1,5 @@
 const path = require('path');
+const moment = require("moment");
 const http = require('http');
 const express = require('express');
 const socketIO = require('socket.io');
@@ -15,6 +16,17 @@ app.use(express.static(publicPath));
 
 io.on('connection', (socket) => {
   console.log('New user connected');
+
+  socket.on('sendMessage', (data) => {
+    console.log('Recieved message: '+data);
+
+    socket.emit('newMessage', {
+      from: data.from,
+      to: data.to,
+      text: data.text,
+      createdAt: moment().format("dddd, MMMM Do YYYY, h:mm:ss a")
+    });
+  });
 
   socket.on('disconnect', () => {
     console.log('User disconnected');
