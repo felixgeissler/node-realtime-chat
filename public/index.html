@@ -3,11 +3,111 @@
 <head>
   <meta charset="UTF-8">
   <title>Node.js Chat App</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css" integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
+  <link href="assets/css/main.css" rel="stylesheet">
 </head>
 <body>
-  <h1>Node.js Chat App</h1>
+  <div id="wrapper" class="toggled">
+
+        <!-- Sidebar -->
+        <div id="sidebar-wrapper">
+            <ul class="sidebar-nav">
+                <li class="sidebar-brand">
+                    <a href="#">
+                        <i class="fab fa-node-js"></i> NodeJS Chatroom
+                    </a>
+                </li>
+                <li>
+                    <p><i class="far fa-user side-icon"></i> Nickname</p>
+                </li>
+                <li>
+                    <a href="https://github.com/felixgeissler/node-realtime-chat" target="_blank">Github</a>
+                </li>
+                <li>
+                    <a href="#">About</a>
+                </li>
+                <li>
+                    <a href="#">Impressum</a>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Content -->
+        <div id="page-content-wrapper">
+            <div class="container-fluid">
+              <div id="topDisplay" class="row align-items-center">
+                <a href="#menu-toggle" class="btn btn-outline-secondary" id="menu-toggle"><i class="fas fa-bars"></i></a>
+                <h1 class="inline-element">[Channel] Global</h1>
+              </div>
+                <hr>
+                <div id="chat"></div>
+              </div>
+
+            <footer class="footer">
+              <div class="container">
+                <div class="input-group mb-3">
+                  <input type="text" id="input-message" class="form-control" placeholder="Message" aria-label="Message" aria-describedby="button-sendMessage">
+                  <div class="input-group-append">
+                    <button class="btn btn-secondary" type="button"><i class="far fa-smile"></i></button>
+                    <button class="btn btn-secondary" type="button" id="button-sendMessage">Send</button>
+                  </div>
+                </div>
+              </div>
+            </footer>
+        </div>
+
+        <!-- Modal -->
+        <div id="#nickModal" class="modal" tabindex="-1" role="dialog">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">Choose nickname</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <form>
+                  <div class="form-group">
+                    <input type="text" class="form-control" id="input-nickname" aria-describedby="nicknameHelp" placeholder="Enter Nickname">
+                    <small id="nicknameHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+                  </div>
+                </form>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-primary">Proceed</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Process -->
+        <input id="process-nickname" style="display: none;" value=""></input>
+    </div>
+
+
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://getbootstrap.com/docs/4.1/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 
   <script src="/socket.io/socket.io.js"></script>
   <script src="assets/js/main.js"></script>
+
+  <script>
+
+    var nickname = 'user'+Math.floor((Math.random() * 100) + 1);
+
+    $( document ).ready(function() {
+      $('#nickModal').modal('show');
+      $('#nickModal').modal('toggle');
+      console.log('Opened modal');
+    });
+
+    $("#menu-toggle").click(function(e) {
+        e.preventDefault();
+        $("#wrapper").toggleClass("toggled");
+    });
+  </script>
 </body>
 </html>

@@ -2,17 +2,6 @@ var socket = io();
 
 socket.on('connect', function() {
   console.log('Connected to server');
-
-  socket.emit('sendMessage', {
-    from: 'User',
-    text: 'This is the user speaking'
-  });
-});
-
-socket.on('response', function(res) {
-  if (res.status==1){
-    console.log('Message send');
-  }
 });
 
 socket.on('disconnect', function() {
@@ -21,4 +10,19 @@ socket.on('disconnect', function() {
 
 socket.on('newMessage', function(data) {
   console.log('New Message recieved: ', data);
+  $("#chat").append(`<p><span class="font-weight-bold">[${data.from}]</span> ${data.timestamp} - ${data.text}</p>`);
 });
+
+
+$( "#button-sendMessage" ).on('click', function () {
+  submitMessage();
+});
+
+function submitMessage(){
+  socket.emit('sendMessage', {
+    from: nickname,
+    text: $("#input-message").val()
+  }, function(data) {
+    console.log(data);
+  });
+}

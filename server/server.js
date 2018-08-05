@@ -22,12 +22,9 @@ io.on('connection', (socket) => {
   socket.broadcast.emit('newMessage', generateMessage('Admin', 'A new user has joined.'));
 
 
-  socket.on('sendMessage', (data) => {
+  socket.on('sendMessage', (data, callback) => {
     console.log('Recieved message: '+data);
-
-    socket.emit('response', {
-      status: 1
-    });
+    callback('Server: Recieved message.');
 
     io.emit('newMessage', generateMessage(data.from, data.text));
 
